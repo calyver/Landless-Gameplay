@@ -1,7 +1,7 @@
 ﻿msg_visiting_court = {
     icon = "move_domicile"
-    title = msg_visiting_court.title
-    desc = msg_visiting_court.desc
+    title = msg_visiting_court_title
+    desc = msg_visiting_court_desc
     style = good
     message_filter_type = domicile_moved
 }
