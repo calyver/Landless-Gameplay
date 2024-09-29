@@ -16,11 +16,11 @@ visit_court_interaction = {
 			is_ai = no
 			is_available_adult = yes
 			any_held_title = { }
-			can_leave_court_trigger = yes
+			#can_leave_court_trigger = yes
 			#can_visit_court_owner_trigger = { OWNER = scope:recipient }
 		}
 		scope:recipient = { 
-			exists = capital_province 
+			#exists = capital_province 
 			highest_held_title_tier >= tier_county
 			is_imprisoned = no
 			NOR = {
