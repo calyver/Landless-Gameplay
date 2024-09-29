@@ -1,4 +1,26 @@
-﻿on_travel_court_guest_end = {
+﻿#Used in the debug interaction debug_move_domicile_interaction
+on_travel_court_guest_start = {
+	effect = {
+		if = {
+			limit = {
+				exists = court_owner
+			}
+			court_owner = {
+				remove_courtier_or_guest = scope:actor
+			}
+		}
+		if = {
+			limit = {
+				exists = host
+			}
+			host = {
+				remove_courtier_or_guest = scope:actor
+			}
+		}
+	}
+}
+
+on_travel_court_guest_end = {
 	effect = {
 		if = {
 			limit = {

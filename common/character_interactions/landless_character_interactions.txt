@@ -30,12 +30,19 @@ visit_court_interaction = {
 		#	}
 		#}
 
-		NOT = { scope:recipient = scope:actor }
 		scope:actor = {
 			is_landed = no
 			is_ruler = no
+			is_ai = no
+			NOR = {
+				this = scope:recipient
+				is_courtier_of = scope:recipient
+			}
 		}
-		scope:recipient = { exists = capital_province }
+		scope:recipient = { 
+			exists = capital_province 
+			highest_held_title_tier >= tier_county
+		}
 	}
 
 	is_valid_showing_failures_only = {
@@ -77,7 +84,7 @@ visit_court_interaction = {
 			#}
 			start_travel_plan = {
 				destination = scope:relocation_destination
-				#on_start_on_action = on_travel_relocation_start - Check
+				on_start_on_action = on_travel_court_guest_start # Check
 				on_arrival_on_action = on_travel_court_guest_end # Check
 				on_travel_planner_cancel_on_action = petition_liege_travel_planner_exit
 				on_arrival_destinations = last
