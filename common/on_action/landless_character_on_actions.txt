@@ -24,9 +24,9 @@ on_travel_court_guest_end = {
 	effect = {
 		if = {
 			limit = {
-				exists = root.capital_province.barony.holder
+				exists = root.location.county
 			}
-			root.capital_province.barony.holder = {
+			root.location.county.holder = {
 				save_scope_as = barony_owner
 			}
 			send_interface_message = {
