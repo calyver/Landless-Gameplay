@@ -1,4 +1,4 @@
 ﻿l_english:
- visit_court_interaction: "Visit Court"
+ #visit_court_interaction: "Visit Court"
  visit_court_interaction_desc: "You visit [recipient.GetTitledFirstName]'s court in [recipient.GetCapitalLocation.GetBaronyNameExplicitly]"
  
