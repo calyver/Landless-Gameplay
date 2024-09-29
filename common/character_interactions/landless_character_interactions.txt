@@ -1,6 +1,6 @@
 ﻿#travel around the map to look for new contracts
 visit_court_interaction = {
-	category = category_diplomacy
+	category = interaction_category_diplomacy
 	
 	interface_priority = 100
 	common_interaction = yes
@@ -21,7 +21,7 @@ visit_court_interaction = {
 		}
 		scope:recipient = { 
 			exists = capital_province 
-			highest_held_title_tier => tier_county
+			highest_held_title_tier >= tier_county
 			is_imprisoned = no
 		}
 	}
