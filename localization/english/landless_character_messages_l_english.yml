@@ -1,0 +1,4 @@
+﻿l_english:
+ msg_visiting_court.title: "Visiting [ROOT.Char.GetCurrentLocation.GetTitle.GetHolder.GetTitledFirstName]'s court"
+ msg_visiting_court.desc: "You are [ROOT.Char.GetCurrentLocation.GetTitle.GetHolder.GetTitledFirstName]'s [guest|E]"
+ 

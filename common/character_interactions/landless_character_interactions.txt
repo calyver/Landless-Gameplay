@@ -1,0 +1,82 @@
+﻿#travel around the map to look for new contracts
+visit_court_interaction = {
+	category = category_diplomacy
+	
+	interface_priority = 100
+	common_interaction = yes
+	use_diplomatic_range = yes
+
+	icon = icon_contract_escort #Check
+	
+	desc = visit_court_interaction_desc
+	
+	is_shown = {
+		NOT = { scope:recipient = scope:actor }
+		scope:actor = {
+			is_ai = no
+			is_available_adult = yes
+			any_held_title = { }
+			can_leave_court_trigger = yes
+			can_visit_court_owner_trigger = { OWNER = scope:recipient }
+		}
+		scope:recipient = { 
+			exists = capital_province 
+			highest_held_title_tier => tier_county
+			is_imprisoned = no
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		scope:recipient = {
+			is_travelling = no
+			is_imprisoned = no
+			# They can't be in isolation - test it
+			NOT = {
+				has_character_modifier = isolating_modifier
+			}
+			capital_county = { 
+				NOT = {
+					has_county_modifier = isolate_capital_decision_modifier 
+				}
+			}
+		}
+		# They can't go to places if they were dismissed
+		#custom_tooltip = {
+		#	text = the_wake_1
+		#	NOT = {
+		#		is_laamp_exiled_from_province_trigger = {
+		#			PROVINCE = scope:recipient.capital_province
+		#			LAAMP = scope:actor
+		#		}
+		#	}
+		#}
+	}
+
+	on_accept = {
+		scope:recipient.capital_province = {
+			save_scope_as = relocation_destination
+		}
+		scope:actor = {
+			# Check
+			#show_as_tooltip = {
+			#	domicile = {
+			#		move_domicile = scope:relocation_destination
+			#	}
+			#}
+			start_travel_plan = {
+				destination = scope:relocation_destination
+				#on_start_on_action = on_travel_relocation_start - Check
+				on_arrival_on_action = on_travel_court_guest_end # Check
+				on_travel_planner_cancel_on_action = petition_liege_travel_planner_exit
+				on_arrival_destinations = last
+				return_trip = no # One way
+			}
+		}
+	}
+
+	auto_accept = yes
+}
+
+#To check:
+##Not available if their capital is being sieged
+##The trip is cancelled if the owner gets sick, the capital is closed, or something...

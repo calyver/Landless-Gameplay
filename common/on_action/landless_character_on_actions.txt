@@ -1,0 +1,19 @@
+﻿on_travel_court_guest_end = {
+	effect = {
+		if = {
+			limit = {
+				exists = root.capital_province.barony.holder
+			}
+			root.capital_province.barony.holder = {
+				save_scope_as = barony_owner
+			}
+			send_interface_message = {
+				type = msg_visiting_court
+				left_icon = scope:barony_owner
+			}
+			hidden_effect = {
+				visit_court_of = scope:barony_owner
+			}
+		}
+	}
+}
