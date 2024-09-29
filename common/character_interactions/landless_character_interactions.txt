@@ -17,12 +17,17 @@ visit_court_interaction = {
 			is_available_adult = yes
 			any_held_title = { }
 			can_leave_court_trigger = yes
-			can_visit_court_owner_trigger = { OWNER = scope:recipient }
+			#can_visit_court_owner_trigger = { OWNER = scope:recipient }
 		}
 		scope:recipient = { 
 			exists = capital_province 
 			highest_held_title_tier >= tier_county
 			is_imprisoned = no
+			NOR = {
+				has_relation_grudge = scope:actor
+				has_relation_rival = scope:actor
+				has_relation_nemesis = scope:actor
+			}
 		}
 	}
 
