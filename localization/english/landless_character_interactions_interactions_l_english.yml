@@ -1,5 +1,5 @@
 ﻿l_english:
  #visit_court_interaction: "Visit Court"
  visit_court_interaction_desc: "You visit [recipient.GetTitledFirstName]'s court in [recipient.GetCapitalLocation.GetBaronyNameExplicitly]"
- quit_court_reason: "Uou recently left [recipient.GetTitledFirstName]'s court"
+ quit_court_reason: "You recently left [recipient.GetTitledFirstName]'s court"
  
