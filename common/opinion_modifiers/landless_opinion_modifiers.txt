@@ -1,0 +1,11 @@
+﻿quit_court_opinion = {
+	opinion = -5
+	years = 10
+	decaying = yes
+}
+
+quit_court_important_courtier_opinion = {
+	opinion = -15
+	years = 10
+	decaying = yes
+}

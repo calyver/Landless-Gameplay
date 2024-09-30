@@ -5,7 +5,6 @@
 		}
 		AND = {
 			exists = court_owner
-			has_any_court_position = no
 			NOR = {
 				any_close_family_member = {
 					this = court_owner
@@ -14,8 +13,14 @@
 					this = court_owner
 				}
 			}
-			is_councillor = no
-			is_knight = no
+			#Can't be a scheme agent
+			court_owner = {
+				NOT = {
+					any_scheme = {
+						scheme_is_character_agent = scope:actor
+					}
+				}
+			}
 		}
 	}
 }

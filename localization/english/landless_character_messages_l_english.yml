@@ -1,6 +1,6 @@
 ﻿l_english:
- msg_visiting_court_title: "Visiting [ROOT.Char.GetCurrentLocation.GetTitle.GetHolder.GetTitledFirstNameNoTooltip]'s court"
- msg_visiting_court_desc: "You are [ROOT.Char.GetCurrentLocation.GetTitle.GetHolder.GetTitledFirstNameNoTooltip]'s [guest|E] at [ROOT.Char.GetCurrentLocation.GetBaronyNameExplicitly]"
+ msg_visiting_court_title: "Visiting [LEFT_CHARACTER.GetShortUINameNoTooltip]'s court"
+ msg_visiting_court_desc: "You are [LEFT_CHARACTER.GetShortUIName]'s [guest|E] at [LEFT_CHARACTER.GetCapitalLocation.GetBaronyNameExplicitly]"
 
 
  
