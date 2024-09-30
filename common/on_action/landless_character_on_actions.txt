@@ -37,7 +37,7 @@ on_travel_court_guest_start = {
 						modifier = quit_court_important_courtier_opinion
 					}
 					scope:actor = {
-						add_prestige = medium_prestige_loss
+						add_prestige = minor_prestige_loss
 					}
 				}
 				else_if = {
