@@ -19,6 +19,7 @@ visit_court_interaction = {
 			NOR = {
 				this = scope:recipient
 				is_courtier_of = scope:recipient
+				is_foreign_court_or_pool_guest_of = scope:recipient
 			}
 			can_leave_court_trigger = yes
 		}
