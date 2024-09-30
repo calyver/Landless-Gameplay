@@ -79,6 +79,14 @@ visit_court_interaction = {
 			scope:actor = {
 				if = {
 					limit = {
+						exists = host
+					}
+					host = {
+						remove_courtier_or_guest = scope:actor
+					}
+				}
+				if = {
+					limit = {
 						exists = court_owner
 					}
 					if = {
