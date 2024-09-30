@@ -47,7 +47,6 @@ visit_court_interaction = {
 			text = quit_court_reason
 			scope:recipient = {
 				NOR = {
-					has_character_modifier = isolating_modifier
 					has_opinion_modifier = {
 						target = scope:actor
 						modifier = quit_court_opinion
