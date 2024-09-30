@@ -97,7 +97,7 @@ visit_court_interaction = {
 								any_court_position_employer = { this = court_owner }
 							}
 						}
-						add_prestige = medium_prestige_loss
+						add_prestige = minor_prestige_loss
 						court_owner = {
 							add_opinion = {
 								target = scope:actor
