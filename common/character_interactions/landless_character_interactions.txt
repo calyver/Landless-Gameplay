@@ -424,17 +424,15 @@ request_to_join_court_interaction = {
 
 		modifier = {
 			exists = scope:actor.house
-			exists = scope:recipient.house
-			scope:recipient.house = scope:actor.house
-			add = 15
+			exists = scope:recipient.house ?= scope:actor.house
+			add = 10
 			desc = IS_SAME_HOUSE_REASON
 		}
 		modifier = {
 			exists = scope:actor.dynasty
-			exists = scope:recipient.dynasty
-			scope:recipient.dynasty = scope:actor.dynasty
+			exists = scope:recipient.dynasty ?= scope:actor.dynasty
 			add = 5
-			desc = IS_SAME_HOUSE_REASON
+			desc = OPINION_SAME_DYNASTY
 		}
 		
  		modifier = {
@@ -444,7 +442,7 @@ request_to_join_court_interaction = {
  		}
  		modifier = {
  			this.house.house_head = scope:actor
- 			add = 60
+ 			add = 30
  			desc = AI_YOU_ARE_THE_HOUSE_HEAD
  		}
 
@@ -458,7 +456,7 @@ request_to_join_court_interaction = {
 				this = scope:actor
 			}
 			add = 50
-			desc = AI_YOUR_CONCUBINE
+			desc = AI_YOUR_CONCUBINIST
 		}
 
 		#Prestige
@@ -533,12 +531,378 @@ request_to_join_court_interaction = {
 		}
 
 		#Lowborn
+		modifier = {
+			scope:actor = {
+				is_lowborn = yes
+			}
+			add = -10
+			desc = AI_LOWBORN
+		}
 
 		#Skills - potential knight
+		modifier = {
+			scope:actor = {
+				OR = {
+					diplomacy < mediocre_skill_rating
+					diplomacy >= high_skill_rating
 
-		#Virtuous traits
+					stewardship < mediocre_skill_rating
+					stewardship >= high_skill_rating
+
+					martial < mediocre_skill_rating
+					martial >= high_skill_rating
+
+					intrigue < mediocre_skill_rating
+					intrigue >= high_skill_rating
+
+					learning < mediocre_skill_rating
+					learning >= high_skill_rating
+				}
+			}
+			add = {
+				value = 0
+
+				#Terrible
+				if = { #Diplomacy
+					limit = {
+						scope:actor = {
+							diplomacy < low_skill_rating
+						}
+					}
+					add = -5
+				}
+				if = { #Stewardship
+					limit = {
+						scope:actor = {
+							stewardship < low_skill_rating
+						}
+					}
+					add = -5
+				}
+				if = { #Martial
+					limit = {
+						scope:actor = {
+							martial < low_skill_rating
+						}
+					}
+					add = -5
+				}
+				if = { #Intrigue
+					limit = {
+						scope:actor = {
+							intrigue < low_skill_rating
+						}
+					}
+					add = -5
+				}
+				if = { #Learning
+					limit = {
+						scope:actor = {
+							learning < low_skill_rating
+						}
+					}
+					add = -5
+				}
+
+				#Mediocre
+				if = { #Diplomacy
+					limit = {
+						scope:actor = {
+							diplomacy < mediocre_skill_rating
+						}
+					}
+					add = -5
+				}
+				if = { #Stewardship
+					limit = {
+						scope:actor = {
+							stewardship < mediocre_skill_rating
+						}
+					}
+					add = -5
+				}
+				if = { #Martial
+					limit = {
+						scope:actor = {
+							martial < mediocre_skill_rating
+						}
+					}
+					add = -5
+				}
+				if = { #Intrigue
+					limit = {
+						scope:actor = {
+							intrigue < mediocre_skill_rating
+						}
+					}
+					add = -5
+				}
+				if = { #Learning
+					limit = {
+						scope:actor = {
+							learning < mediocre_skill_rating
+						}
+					}
+					add = -5
+				}
+
+				#High
+				if = { #Diplomacy
+					limit = {
+						scope:actor = {
+							diplomacy >= high_skill_rating
+						}
+					}
+					add = 5
+				}
+				if = { #Stewardship
+					limit = {
+						scope:actor = {
+							stewardship >= high_skill_rating
+						}
+					}
+					add = 5
+				}
+				if = { #Martial
+					limit = {
+						scope:actor = {
+							martial >= high_skill_rating
+						}
+					}
+					add = 5
+				}
+				if = { #Intrigue
+					limit = {
+						scope:actor = {
+							intrigue >= high_skill_rating
+						}
+					}
+					add = 5
+				}
+				if = { #Learning
+					limit = {
+						scope:actor = {
+							learning >= high_skill_rating
+						}
+					}
+					add = 5
+				}
+
+				#Very high
+				if = { #Diplomacy
+					limit = {
+						scope:actor = {
+							diplomacy >= very_high_skill_rating
+						}
+					}
+					add = 5
+				}
+				if = { #Stewardship
+					limit = {
+						scope:actor = {
+							stewardship >= very_high_skill_rating
+						}
+					}
+					add = 5
+				}
+				if = { #Martial
+					limit = {
+						scope:actor = {
+							martial >= very_high_skill_rating
+						}
+					}
+					add = 5
+				}
+				if = { #Intrigue
+					limit = {
+						scope:actor = {
+							intrigue >= very_high_skill_rating
+						}
+					}
+					add = 5
+				}
+				if = { #Learning
+					limit = {
+						scope:actor = {
+							learning >= very_high_skill_rating
+						}
+					}
+					add = 5
+				}
+
+				#Extremely high
+				if = { #Diplomacy
+					limit = {
+						scope:actor = {
+							diplomacy >= extremely_high_skill_rating
+						}
+					}
+					add = 5
+				}
+				if = { #Stewardship
+					limit = {
+						scope:actor = {
+							stewardship >= extremely_high_skill_rating
+						}
+					}
+					add = 5
+				}
+				if = { #Martial
+					limit = {
+						scope:actor = {
+							martial >= extremely_high_skill_rating
+						}
+					}
+					add = 5
+				}
+				if = { #Intrigue
+					limit = {
+						scope:actor = {
+							intrigue >= extremely_high_skill_rating
+						}
+					}
+					add = 5
+				}
+				if = { #Learning
+					limit = {
+						scope:actor = {
+							learning >= extremely_high_skill_rating
+						}
+					}
+					add = 5
+				}
+			}
+			desc = AI_SKILLS
+		}
+
+		modifier = {
+			scope:actor = {
+				can_be_combatant_based_on_gender_trigger = {
+					ARMY_OWNER = scope:recipient
+				}
+				OR = {
+					prowess < mediocre_skill_rating
+					prowess >= high_skill_rating
+				}
+			}
+			add = {
+				value = 0
+				#Terrible
+				if = {
+					limit = {
+						scope:actor = {
+							prowess < low_skill_rating
+						}
+					}
+					add = -5
+				}
+
+				#Mediocre
+				if = {
+					limit = {
+						scope:actor = {
+							prowess < mediocre_skill_rating
+						}
+					}
+					add = -5
+				}
+
+				#High
+				if = {
+					limit = {
+						scope:actor = {
+							prowess >= high_skill_rating
+						}
+					}
+					add = 5
+				}
+
+				#Very high
+				if = { #Diplomacy
+					limit = {
+						scope:actor = {
+							prowess >= very_high_skill_rating
+						}
+					}
+					add = 5
+				}
+
+				#Extremely high
+				if = { #Diplomacy
+					limit = {
+						scope:actor = {
+							prowess >= extremely_high_skill_rating
+						}
+					}
+					add = 5
+				}
+			}
+			desc = AI_PROWESS
+		}
+
+		#Virtuous traits (if not cynical)
+		modifier = {
+			scope:actor = {
+				num_virtuous_traits >= 1
+			}
+			scope:recipient = {
+				NOT = {
+					has_trait = cynical
+				}
+			}
+			add = {
+				value = 5
+				if = {
+					limit = {
+						scope:actor = {
+							num_virtuous_traits >= 2
+						}
+					}
+					add = 5
+				}
+				if = {
+					limit = {
+						scope:actor = {
+							num_virtuous_traits >= 3
+						}
+					}
+					add = 5
+				}
+			}
+			desc = AI_VIRTUOUS_TRAITS
+		}
 
 		#Sinful traits (if not cynical)
+		modifier = {
+			scope:actor = {
+				num_sinful_traits >= 1
+			}
+			scope:recipient = {
+				NOT = {
+					has_trait = cynical
+				}
+			}
+			add = {
+				value = -5
+				if = {
+					limit = {
+						scope:actor = {
+							num_sinful_traits >= 2
+						}
+					}
+					add = -5
+				}
+				if = {
+					limit = {
+						scope:actor = {
+							num_sinful_traits >= 3
+						}
+					}
+					add = -5
+				}
+			}
+			desc = AI_SINFUL_TRAITS
+		}
 
 		#Congenital traits - good and bad
 
