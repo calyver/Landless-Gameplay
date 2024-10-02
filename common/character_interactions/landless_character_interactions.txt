@@ -24,7 +24,6 @@ visit_court_interaction = {
 			can_leave_court_trigger = yes
 		}
 		scope:recipient = { 
-			is_landless_adventurer = no
 			highest_held_title_tier >= tier_barony
 			exists = capital_province 
 			is_landless_adventurer = no
@@ -85,32 +84,32 @@ visit_court_interaction = {
 					host = {
 						remove_courtier_or_guest = scope:actor
 					}
-				}
-				if = {
-					limit = {
-						exists = court_owner
-					}
 					if = {
 						limit = {
-							OR = {
-								is_knight_of = court_owner
-								is_councillor_of = court_owner
-								any_court_position_employer = { this = court_owner }
+							is_courtier_of = host
+						}
+						if = {
+							limit = {
+								OR = {
+									is_knight_of = court_owner
+									is_councillor_of = court_owner
+									any_court_position_employer = { this = court_owner }
+								}
+							}
+							add_prestige = minor_prestige_loss
+							court_owner = {
+								add_opinion = {
+									target = scope:actor
+									modifier = quit_court_important_courtier_opinion
+								}
 							}
 						}
-						add_prestige = minor_prestige_loss
-						court_owner = {
-							add_opinion = {
-								target = scope:actor
-								modifier = quit_court_important_courtier_opinion
-							}
-						}
-					}
-					else = {
-						court_owner = {
-							add_opinion = {
-								target = scope:actor
-								modifier = quit_court_opinion
+						else = {
+							court_owner = {
+								add_opinion = {
+									target = scope:actor
+									modifier = quit_court_opinion
+								}
 							}
 						}
 					}
@@ -146,16 +145,13 @@ request_to_join_court_interaction = {
 	
 	is_shown = {
 		scope:actor = {
-			NOR = {
-				is_courtier_of = scope:recipient
-			}
 			is_ruler = no
 			is_foreign_court_or_pool_guest_of = scope:recipient
 			is_ai = no
 		}
 		scope:recipient = {
 			is_ruler = yes
-			is_available = yes # Check
+			basic_is_available = yes
 			# Diplomatic range
 		}
 	}
@@ -255,32 +251,70 @@ request_to_join_court_interaction = {
 			#		}
 			#	}
 			#}
+
+			scope:recipient = {
+				#send_interface_message = {
+				#	type = event_generic_neutral
+				#	title = invite_to_court_interaction_notification
+				#	right_icon = scope:recipient
+				#
+				#	scope:actor = {
+				#		every_traveling_family_member = {
+				#			scope:recipient = { add_courtier = prev }
+				#			hidden_effect = {
+				#				return_to_court = yes
+				#			}
+				#		}
+				#	}
+				#
+				#	#Check
+				#	if = {
+				#		limit = { always = scope:hook }
+				#		scope:actor = {
+				#			use_hook = scope:recipient
+				#		}
+				#	}
+				#}
+				#add_courtier = scope:actor
+	
+				send_interface_message = {
+					type = event_generic_neutral
+					title = msg_recruited_guest_to_court_interaction_title
+					left_icon = scope:actor
+					stress_impact = {
+						shy = minor_stress_impact_gain
+						paranoid = minor_stress_impact_gain
+					}
+					show_as_tooltip = {
+						#list = recruiting_family
+						#scope:actor = {
+						#	add_courtier ?= prev
+						#}
+						#remove_variable = last_visited_ruler # Even though it times out automatically, removing it here saves cycles for performance.
+						#add_opinion = {
+						#	target = scope:actor
+						#	opinion = 50
+						#	modifier = grateful_opinion
+						#}
+						add_courtier = scope:actor
+					}
+				}
+			}
 		}
-		
-		scope:recipient = {
-			#send_interface_message = {
-			#	type = event_generic_neutral
-			#	title = invite_to_court_interaction_notification
-			#	right_icon = scope:recipient
-			#
-			#	scope:actor = {
-			#		every_traveling_family_member = {
-			#			scope:recipient = { add_courtier = prev }
-			#			hidden_effect = {
-			#				return_to_court = yes
-			#			}
-			#		}
-			#	}
-			#
-			#	#Check
-			#	if = {
-			#		limit = { always = scope:hook }
-			#		scope:actor = {
-			#			use_hook = scope:recipient
-			#		}
-			#	}
-			#}
-			add_courtier = scope:actor
+
+		scope:actor = {
+			send_interface_message = {
+				type = event_generic_neutral
+				title = msg_joined_court_interaction_title
+				left_icon = scope:recipient
+				scope:recipient = {
+					add_courtier = scope:actor
+				}
+				stress_impact = {
+					shy = minor_stress_impact_gain
+					paranoid = minor_stress_impact_gain
+				}
+			}
 		}
 		
 		
@@ -346,6 +380,39 @@ request_to_join_court_interaction = {
 			opinion_target = scope:actor
 			multiplier = 0.15
 			desc = AI_OPINION_REASON
+		}
+
+		#Traits
+		modifier = {
+			scope:recipient = {
+				has_trait = shy
+			}
+			add = -25
+			desc = AI_SHY
+		}
+		modifier = {
+			scope:recipient = {
+				has_trait = paranoid
+			}
+			add = -25
+			desc = AI_PARANOID
+		}
+		modifier = {
+			scope:recipient = {
+				has_trait = gregarious
+			}
+			add = 10
+			desc = AI_GREGARIOUS
+		}
+
+		modifier = {
+			exists = scope:actor.dynasty
+			scope:recipient = {
+				dynasty ?= scope:actor.dynasty
+				has_trait = denounced
+			}
+			add = -20
+			desc = AI_DENOUNCED
 		}
 
  		#Relations
@@ -602,7 +669,26 @@ request_to_join_court_interaction = {
 			scope:actor = {
 				is_lowborn = yes
 			}
-			add = -10
+			scope:recipient = {
+				OR = {	
+					is_lowborn = no
+					has_trait = arbitrary
+				}
+				NOT = {
+					has_trait = humble
+				}
+			}
+			add = {
+				value = -10
+				if = {
+					limit = {
+						scope:recipient = {
+							has_trait = arrogant
+						}
+					}
+					multiply = 2
+				}
+			}
 			desc = AI_LOWBORN
 		}
 
@@ -1163,8 +1249,12 @@ request_to_join_court_interaction = {
 					add = -15
 				}
 			}
-			desc = AI_GOOD_GENETICS
+			desc = AI_BAD_GENETICS
 		}
+
+		#Culture and culture acceptance
+
+		#Faith, views on different faiths, religious families, and ai_zeal (non-cynical)
 
  		#Inspiration - check
 		#modifier = {

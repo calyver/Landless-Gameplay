@@ -16,6 +16,18 @@ on_travel_court_guest_start = {
 			host = {
 				save_scope_as = previous_liege
 			}
+			if = {
+				limit = {
+					NOT = {
+						exists = var:last_visited_ruler
+					}
+				}
+				set_variable = {
+					name = last_visited_ruler
+					value = this.host
+					days = 1825
+				}
+			}
 		}
 		if = {
 			limit = {
@@ -102,6 +114,17 @@ on_travel_court_guest_end = {
 			send_interface_message = {
 				type = msg_visiting_court
 				left_icon = scope:barony_owner
+			}
+			if = {
+				limit = {
+					exists = var:last_visited_ruler
+				}
+				remove_variable = last_visited_ruler
+			}
+			set_variable = {
+				name = last_visited_ruler
+				value = this.host
+				days = 1825
 			}
 		}
 	}

@@ -1,6 +1,7 @@
 ﻿l_english:
  msg_visiting_court_title: "Visiting [LEFT_CHARACTER.GetShortUINameNoTooltip]'s court"
  msg_visiting_court_desc: "You are [LEFT_CHARACTER.GetShortUIName]'s [guest|E] at [LEFT_CHARACTER.GetCapitalLocation.GetBaronyNameExplicitly]"
+ msg_joined_court_interaction_title: "New [liege|E]"
 
 
  

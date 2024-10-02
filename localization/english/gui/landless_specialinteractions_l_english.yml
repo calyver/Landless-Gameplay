@@ -1,9 +1,19 @@
 ﻿l_english:
- AI_SKILLS: "Your skills: $VALUE|=+0$"
+ AI_SKILLS: "Your Skills: $VALUE|=+0$"
  AI_PROWESS: "Your [prowess|E]: $VALUE|=+0$"
- AI_VIRTUOUS_TRAITS: "Virtuous traits: $VALUE|=+0$"
- AI_SINFUL_TRAITS: "Sinful traits: $VALUE|=+0$"
+ AI_VIRTUOUS_TRAITS: "Virtuous Traits: $VALUE|=+0$"
+ AI_SINFUL_TRAITS: "Sinful Traits: $VALUE|=+0$"
  AI_LOWBORN: "You are [lowborn|E]: $VALUE|=+0$"
- AI_DEVOTION: "$game_concept_piety_level$: $VALUE|=+0$"
 
- AI_GOOD_GENETICS: "Good genetic traits: $VALUE|=+0$"
+ AI_GOOD_GENETICS: "Good [congenital_traits|E]: $VALUE|=+0$"
+ AI_BAD_GENETICS: "Bad [congenital_traits|E]: $VALUE|=+0$"
+
+ AI_DEVOTION: "Your [piety_level|E]: $VALUE|=+0$"
+ AI_YOUR_PRESTIGE: "Your [prestige_level|E]: $VALUE|=+0$"
+ AI_DYNASTY_PRESTIGE_REASON: "Your [dynasty_prestige_level|E]: $VALUE|=+0$"
+
+ AI_SHY: "[recipient.GetSheHe|U] is [GetTrait('shy').GetName( GetNullCharacter )]: $VALUE|=+0$"
+ AI_PARANOID: "[recipient.GetSheHe|U] is [GetTrait('paranoid').GetName( GetNullCharacter )]: $VALUE|=+0$"
+ AI_GREGARIOUS: "[recipient.GetSheHe|U] is [GetTrait('gregarious').GetName( GetNullCharacter )]: $VALUE|=+0$"
+
+ AI_DENOUNCED: "You were [GetTrait('denounced').GetName( GetNullCharacter )]: $VALUE|=+0$"
