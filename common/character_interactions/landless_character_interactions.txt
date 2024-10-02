@@ -1253,8 +1253,229 @@ request_to_join_court_interaction = {
 		}
 
 		#Culture and culture acceptance
+		modifier = { # Cultural Acceptance
+			add = {
+				value = -5
+				if = {
+					limit = {
+						scope:actor.culture = {
+							cultural_acceptance = { target = scope:recipient.culture value <= 60 }
+						}
+					}
+					add = -5
+				}
+				if = {
+					limit = {
+						scope:actor.culture = {
+							cultural_acceptance = { target = scope:recipient.culture value <= 50 }
+						}
+					}
+					add = -5
+				}
+				if = {
+					limit = {
+						scope:actor.culture = {
+							cultural_acceptance = { target = scope:recipient.culture value <= 40 }
+						}
+					}
+					add = -5
+				}
+				if = {
+					limit = {
+						scope:actor.culture = {
+							cultural_acceptance = { target = scope:recipient.culture value <= 30 }
+						}
+					}
+					add = -5
+				}
+				if = {
+					limit = {
+						scope:actor.culture = {
+							cultural_acceptance = { target = scope:recipient.culture value <= 20 }
+						}
+					}
+					add = -5
+				}
+				if = {
+					limit = {
+						scope:actor.culture = {
+							cultural_acceptance = { target = scope:recipient.culture value <= 10 }
+						}
+					}
+					add = -5
+				}
+			}
+			desc = cultural_acceptance_interaction_reason
+			trigger = {
+				scope:actor = {
+					NOT = { has_same_culture_as = scope:recipient }
+					culture = {
+						cultural_acceptance = { target = scope:recipient.culture value <= 70 }
+					}
+				}
+			}
+		}
 
 		#Faith, views on different faiths, religious families, and ai_zeal (non-cynical)
+		modifier = { #Different faith, no pluralism.
+			desc = offer_vassalization_interaction_aibehavior_differentfaith_tt
+			trigger = {
+				scope:recipient = {
+					NOR = { #Of two different faiths AND the potential vassal's faith is not pluralistic.
+						faith = scope:actor.faith
+						faith = { has_doctrine = doctrine_pluralism_pluralistic }
+						has_trait = cynical
+					}
+					faith = {
+						faith_hostility_level = {
+							target = scope:actor.faith
+							value > faith_fully_accepted_level
+						}
+					}
+				}
+			}
+			add = {
+				value = -20
+				if = {
+					limit = {
+						scope:recipient.faith = {
+							faith_hostility_level = {
+								target = scope:actor.faith
+								value >= faith_hostile_level
+							}
+						}
+					}
+					add = -10
+				}
+				if = {
+					limit = {
+						scope:recipient.faith = {
+							faith_hostility_level = {
+								target = scope:actor.faith
+								value >= faith_evil_level
+							}
+						}
+					}
+					add = -10
+				}
+				if = {
+					limit = {
+						scope:recipient = {
+							has_trait = zealous
+						}
+					}
+					multiply = 2
+				}
+			}
+		}
+
+		modifier = { #Different faith, pluralism.
+			desc = offer_vassalization_interaction_aibehavior_differentfaith_tt
+			trigger = {
+				scope:recipient = {
+					NOR = {
+						faith = scope:actor.faith
+						has_trait = cynical
+					}
+					NOT = {
+						scope:actor.faith = { has_doctrine = doctrine_pluralism_pluralistic }
+					}
+					faith = { 
+						has_doctrine = doctrine_pluralism_pluralistic 
+						faith_hostility_level = {
+							target = scope:actor.faith
+							value > faith_fully_accepted_level
+						}
+					}
+				}
+			}
+			add = {
+				value = -10
+				if = {
+					limit = {
+						scope:recipient.faith = {
+							faith_hostility_level = {
+								target = scope:actor.faith
+								value >= faith_hostile_level
+							}
+						}
+					}
+					add = -5
+				}
+				if = {
+					limit = {
+						scope:recipient.faith = {
+							faith_hostility_level = {
+								target = scope:actor.faith
+								value >= faith_evil_level
+							}
+						}
+					}
+					add = -5
+				}
+				if = {
+					limit = {
+						scope:recipient = {
+							has_trait = zealous
+						}
+					}
+					multiply = 2
+				}
+			}
+		}
+
+		modifier = { #Different faith, both have pluralism.
+			desc = offer_vassalization_interaction_aibehavior_differentfaith_tt
+			trigger = {
+				scope:recipient = {
+					NOR = {
+						faith = scope:actor.faith
+						has_trait = cynical
+					}
+					scope:actor.faith = { has_doctrine = doctrine_pluralism_pluralistic }
+					faith = { 
+						has_doctrine = doctrine_pluralism_pluralistic 
+						faith_hostility_level = {
+							target = scope:actor.faith
+							value > faith_fully_accepted_level
+						}
+					}
+				}
+			}
+			add = {
+				value = -5
+				if = {
+					limit = {
+						scope:recipient.faith = {
+							faith_hostility_level = {
+								target = scope:actor.faith
+								value >= faith_hostile_level
+							}
+						}
+					}
+					add = -5
+				}
+				if = {
+					limit = {
+						scope:recipient.faith = {
+							faith_hostility_level = {
+								target = scope:actor.faith
+								value >= faith_evil_level
+							}
+						}
+					}
+					add = -5
+				}
+				if = {
+					limit = {
+						scope:recipient = {
+							has_trait = zealous
+						}
+					}
+					multiply = 2
+				}
+			}
+		}
 
  		#Inspiration - check
 		#modifier = {
