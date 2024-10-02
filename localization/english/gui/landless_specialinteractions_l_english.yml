@@ -6,26 +6,4 @@
  AI_LOWBORN: "You are [lowborn|E]: $VALUE|=+0$"
  AI_DEVOTION: "$game_concept_piety_level$: $VALUE|=+0$"
 
- AI_INTELLECT_GOOD_1: "[GetTrait('intellect_good_1').GetName( GetNullCharacter )]: $VALUE|=+0$"
- AI_INTELLECT_GOOD_2: "[GetTrait('intellect_good_2').GetName( GetNullCharacter )]: $VALUE|=+0$"
- AI_INTELLECT_GOOD_3: "[GetTrait('intellect_good_3').GetName( GetNullCharacter )]: $VALUE|=+0$"
-
- AI_PHYSIQUE_GOOD_1: "[GetTrait('physique_good_1').GetName( GetNullCharacter )]: $VALUE|=+0$"
- AI_PHYSIQUE_GOOD_2: "[GetTrait('physique_good_2').GetName( GetNullCharacter )]: $VALUE|=+0$"
- AI_PHYSIQUE_GOOD_3: "[GetTrait('physique_good_3').GetName( GetNullCharacter )]: $VALUE|=+0$"
-
- AI_BEAUTY_GOOD_1: "[GetTrait('beauty_good_1').GetName( GetNullCharacter )]: $VALUE|=+0$"
- AI_BEAUTY_GOOD_2: "[GetTrait('beauty_good_2').GetName( GetNullCharacter )]: $VALUE|=+0$"
- AI_BEAUTY_GOOD_3: "[GetTrait('beauty_good_3').GetName( GetNullCharacter )]: $VALUE|=+0$"
-
- AI_INTELLECT_BAD_1: "[GetTrait('intellect_bad_1').GetName( GetNullCharacter )]: $VALUE|=+0$"
- AI_INTELLECT_BAD_2: "[GetTrait('intellect_bad_2').GetName( GetNullCharacter )]: $VALUE|=+0$"
- AI_INTELLECT_BAD_3: "[GetTrait('intellect_bad_3').GetName( GetNullCharacter )]: $VALUE|=+0$"
-
- AI_PHYSIQUE_BAD_1: "[GetTrait('physique_bad_1').GetName( GetNullCharacter )]: $VALUE|=+0$"
- AI_PHYSIQUE_BAD_2: "[GetTrait('physique_bad_2').GetName( GetNullCharacter )]: $VALUE|=+0$"
- AI_PHYSIQUE_BAD_3: "[GetTrait('physique_bad_3').GetName( GetNullCharacter )]: $VALUE|=+0$"
-
- AI_BEAUTY_BAD_1: "[GetTrait('beauty_bad_1').GetName( GetNullCharacter )]: $VALUE|=+0$"
- AI_BEAUTY_BAD_2: "[GetTrait('beauty_bad_2').GetName( GetNullCharacter )]: $VALUE|=+0$"
- AI_BEAUTY_BAD_3: "[GetTrait('beauty_bad_3').GetName( GetNullCharacter )]: $VALUE|=+0$"
+ AI_GOOD_GENETICS: "Good genetic traits: $VALUE|=+0$"
