@@ -1,4 +1,6 @@
 ﻿l_english:
+ IS_SAME_DYNASTY_REASON: "Same [dynasty|E]: $VALUE|=+0$"
+ AI_CRIMINAL: "You are a [criminal|E]: $VALUE|=+0$"
  AI_SKILLS: "Your Skills: $VALUE|=+0$"
  AI_PROWESS: "Your [prowess|E]: $VALUE|=+0$"
  AI_VIRTUOUS_TRAITS: "Virtuous Traits: $VALUE|=+0$"
@@ -17,3 +19,8 @@
  AI_GREGARIOUS: "[recipient.GetSheHe|U] is [GetTrait('gregarious').GetName( GetNullCharacter )]: $VALUE|=+0$"
 
  AI_DENOUNCED: "You were [GetTrait('denounced').GetName( GetNullCharacter )]: $VALUE|=+0$"
+
+ COVERING_ACCOMODATION: "Covering Accomodations: $VALUE|=+0$"
+ PRESTIGE_INTERACTION_ACCEPTANCE_SEND_OPTION: "Leveraging Your [prestige|E]: $VALUE|=+0$"
+ PIETY_INTERACTION_ACCEPTANCE_SEND_OPTION: "Leveraging Your [piety|E]: $VALUE|=+0$"
+  

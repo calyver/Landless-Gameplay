@@ -165,13 +165,34 @@ request_to_join_court_interaction = {
 	}
 	
 	#Pay som gold to persuade a wandering character to come to your court
-	#send_option = { #Check
-	#	is_shown = {
-	#		exists = scope:actor
-	#	}
-	#	flag = cover_travel_expenses
-	#	localization = COVER_TRAVEL_EXPENSES
-	#}
+	send_option = {
+		is_shown = {
+			exists = scope:actor
+		}
+		is_valid = {
+			scope:actor = { 
+				gold >= join_court_value 
+			}
+		}
+		flag = gold_bribe_flag
+		localization = COVER_ACCOMODATION 
+	}
+	
+	send_option = { # EP3 Influence
+		is_shown = { # Actor must have a government that uses influence 
+			scope:recipient = {
+				government_has_flag = government_has_influence
+			}
+		}
+		is_valid = {
+			# Actor has enough influence
+			scope:actor = { influence >= miniscule_influence_value }
+			# Both characters are within the same top realm
+			scope:recipient.top_liege = scope:actor.top_liege
+		}
+		flag = low_influence_send_option
+		localization = LEVERAGE_SOME_INFLUENCE_FOR_BETTER_AI_ACCEPTANCE
+	}
 	send_option = { # EP3 Influence - Check
 		is_shown = { # Actor must have a government that uses influence 
 			scope:recipient = {
@@ -180,13 +201,41 @@ request_to_join_court_interaction = {
 		}
 		is_valid = {
 			# Actor has enough influence
-			scope:actor = { influence >= medium_influence_value }
+			scope:actor = { influence >= minor_influence_value }
 			# Both characters are within the same top realm
 			scope:recipient.top_liege = scope:actor.top_liege
 		}
-		flag = influence_send_option
-		localization = TRADE_INFLUENCE_FOR_BETTER_AI_ACCEPTANCE
+		flag = medium_influence_send_option
+		localization = LEVERAGE_INFLUENCE_FOR_BETTER_AI_ACCEPTANCE
 	}
+
+	send_option = { #Prestige
+		is_shown = {
+			exists = scope:actor
+		}
+		is_valid = {
+			scope:actor = { 
+				prestige >= miniscule_prestige_value 
+			}
+		}
+		flag = prestige_leverage_flag
+		localization = LEVERAGE_PRESTIGE_AI_ACCEPTANCE
+	}
+
+	send_option = { #Piety
+		is_shown = {
+			exists = scope:actor
+		}
+		is_valid = {
+			scope:actor = { 
+				piety >= miniscule_piety_value 
+				faith = scope:recipient.faith
+			}
+		}
+		flag = piety_leverage_flag
+		localization = LEVERAGE_PIETY_AI_ACCEPTANCE
+	}
+
 	send_option = {
 		is_valid = {
 			scope:actor = {
@@ -202,17 +251,6 @@ request_to_join_court_interaction = {
 	extra_icon = "gfx/interface/icons/character_interactions/hook_icon.dds"
 
 	send_options_exclusive = no
-
-	cost = { #Check
-		influence = {
-			value = 0
-			if = {
-				limit = { scope:influence_send_option = yes }
-				add = scope:actor.medium_influence_value
-				desc = INFLUENCE_INTERACTION_ACCEPTANCE_SEND_OPTION
-			}
-		}
-	}
 
 	on_accept = {
 		hidden_effect = {	
@@ -297,6 +335,50 @@ request_to_join_court_interaction = {
 						#	modifier = grateful_opinion
 						#}
 						add_courtier = scope:actor
+						
+						#Bribes
+						#Gold
+						if = {
+							limit = { always = scope:gold_bribe_flag }
+							scope:actor = {
+								pay_short_term_gold = {
+									gold = join_court_value
+									target = scope:recipient
+								}
+								stress_impact = {
+									greedy = minor_stress_impact_gain
+								}
+							}
+						}
+
+						#Influence
+						if = {
+							limit = { always = scope:low_influence_send_option }
+							scope:actor = { change_influence = miniscule_influence_loss }
+						}
+						if = {
+							limit = { always = scope:medium_influence_send_option }
+							scope:actor = { change_influence = minor_influence_loss }
+						}
+
+						#Prestige
+						if = {
+							limit = { always = scope:prestige_leverage_flag }
+							scope:actor = { add_prestige = miniscule_prestige_loss }
+						}
+
+						#Piety
+						if = {
+							limit = { always = scope:piety_leverage_flag }
+							scope:actor = { add_piety = miniscule_piety_loss }
+						}
+
+						if = {
+							limit = { always = scope:hook }
+							scope:actor = {
+								use_hook = scope:recipient
+							}
+						}
 					}
 				}
 			}
@@ -312,7 +394,50 @@ request_to_join_court_interaction = {
 				}
 				stress_impact = {
 					shy = minor_stress_impact_gain
-					paranoid = minor_stress_impact_gain
+				}
+
+				#Bribes
+				#Gold
+				if = {
+					limit = { always = scope:gold_bribe_flag }
+					scope:actor = {
+						pay_short_term_gold = {
+							gold = join_court_value
+							target = scope:recipient
+						}
+						stress_impact = {
+							greedy = minor_stress_impact_gain
+						}
+					}
+				}
+
+				#Influence
+				if = {
+					limit = { always = scope:low_influence_send_option }
+					scope:actor = { change_influence = miniscule_influence_loss }
+				}
+				if = {
+					limit = { always = scope:medium_influence_send_option }
+					scope:actor = { change_influence = minor_influence_loss }
+				}
+
+				#Prestige
+				if = {
+					limit = { always = scope:prestige_leverage_flag }
+					scope:actor = { add_prestige = miniscule_prestige_loss }
+				}
+
+				#Piety
+				if = {
+					limit = { always = scope:piety_leverage_flag }
+					scope:actor = { add_piety = miniscule_piety_loss }
+				}
+
+				if = {
+					limit = { always = scope:hook }
+					scope:actor = {
+						use_hook = scope:recipient
+					}
 				}
 			}
 		}
@@ -499,7 +624,7 @@ request_to_join_court_interaction = {
 			exists = scope:actor.dynasty
 			scope:recipient.dynasty ?= scope:actor.dynasty
 			add = 5
-			desc = OPINION_SAME_DYNASTY
+			desc = IS_SAME_DYNASTY_REASON
 		}
 		
  		modifier = {
@@ -526,20 +651,54 @@ request_to_join_court_interaction = {
 			desc = AI_YOUR_CONCUBINIST
 		}
 
+		#Criminal
+		modifier = {
+			scope:recipient = {
+				has_imprisonment_reason = scope:actor
+				NOT = {
+					has_trait = forgiving
+				}
+			}
+			add = {
+				value = -10
+				if = {
+					limit = {
+						scope:recipient = {
+							has_trait = just
+						}
+					}
+					multiply = 2
+				}
+			}
+			desc = AI_CRIMINAL
+		}
+
 		#Prestige
 		modifier = {
 			scope:actor = {
-				prestige_level = 0
-			}
-			add = -10
-			desc = AI_YOUR_PRESTIGE
-		}
-		modifier = {
-			scope:actor = {
-				prestige_level >= 2
+				OR = {
+					prestige_level = 0
+					prestige_level >= 2
+				}
 			}
 			add = {
-				value = 5
+				value = 0
+				if = {
+					limit = {
+						scope:actor = {
+							prestige_level = 0
+						}
+					}
+					add = -10
+				}
+				if = {
+					limit = {
+						scope:actor = {
+							prestige_level >= 2
+						}
+					}
+					add = 5
+				}
 				if = {
 					limit = {
 						scope:actor = {
@@ -1254,36 +1413,18 @@ request_to_join_court_interaction = {
 
 		#Culture and culture acceptance
 		modifier = { # Cultural Acceptance
+			scope:actor = {
+				NOT = { has_same_culture_as = scope:recipient }
+				culture = {
+					cultural_acceptance = { target = scope:recipient.culture value <= 70 }
+				}
+			}
 			add = {
 				value = -5
 				if = {
 					limit = {
 						scope:actor.culture = {
-							cultural_acceptance = { target = scope:recipient.culture value <= 60 }
-						}
-					}
-					add = -5
-				}
-				if = {
-					limit = {
-						scope:actor.culture = {
-							cultural_acceptance = { target = scope:recipient.culture value <= 50 }
-						}
-					}
-					add = -5
-				}
-				if = {
-					limit = {
-						scope:actor.culture = {
-							cultural_acceptance = { target = scope:recipient.culture value <= 40 }
-						}
-					}
-					add = -5
-				}
-				if = {
-					limit = {
-						scope:actor.culture = {
-							cultural_acceptance = { target = scope:recipient.culture value <= 30 }
+							cultural_acceptance = { target = scope:recipient.culture value <= 10 }
 						}
 					}
 					add = -5
@@ -1299,38 +1440,52 @@ request_to_join_court_interaction = {
 				if = {
 					limit = {
 						scope:actor.culture = {
-							cultural_acceptance = { target = scope:recipient.culture value <= 10 }
+							cultural_acceptance = { target = scope:recipient.culture value <= 30 }
+						}
+					}
+					add = -5
+				}
+				if = {
+					limit = {
+						scope:actor.culture = {
+							cultural_acceptance = { target = scope:recipient.culture value <= 40 }
+						}
+					}
+					add = -5
+				}
+				if = {
+					limit = {
+						scope:actor.culture = {
+							cultural_acceptance = { target = scope:recipient.culture value <= 50 }
+						}
+					}
+					add = -5
+				}
+				if = {
+					limit = {
+						scope:actor.culture = {
+							cultural_acceptance = { target = scope:recipient.culture value <= 60 }
 						}
 					}
 					add = -5
 				}
 			}
 			desc = cultural_acceptance_interaction_reason
-			trigger = {
-				scope:actor = {
-					NOT = { has_same_culture_as = scope:recipient }
-					culture = {
-						cultural_acceptance = { target = scope:recipient.culture value <= 70 }
-					}
-				}
-			}
 		}
 
 		#Faith, views on different faiths, religious families, and ai_zeal (non-cynical)
 		modifier = { #Different faith, no pluralism.
 			desc = offer_vassalization_interaction_aibehavior_differentfaith_tt
-			trigger = {
-				scope:recipient = {
-					NOR = { #Of two different faiths AND the potential vassal's faith is not pluralistic.
-						faith = scope:actor.faith
-						faith = { has_doctrine = doctrine_pluralism_pluralistic }
-						has_trait = cynical
-					}
-					faith = {
-						faith_hostility_level = {
-							target = scope:actor.faith
-							value > faith_fully_accepted_level
-						}
+			scope:recipient = {
+				NOR = { #Of two different faiths AND the potential vassal's faith is not pluralistic.
+					faith = scope:actor.faith
+					faith = { has_doctrine = doctrine_pluralism_pluralistic }
+					has_trait = cynical
+				}
+				faith = {
+					faith_hostility_level = {
+						target = scope:actor.faith
+						value > faith_fully_accepted_level
 					}
 				}
 			}
@@ -1371,21 +1526,19 @@ request_to_join_court_interaction = {
 
 		modifier = { #Different faith, pluralism.
 			desc = offer_vassalization_interaction_aibehavior_differentfaith_tt
-			trigger = {
-				scope:recipient = {
-					NOR = {
-						faith = scope:actor.faith
-						has_trait = cynical
-					}
-					NOT = {
-						scope:actor.faith = { has_doctrine = doctrine_pluralism_pluralistic }
-					}
-					faith = { 
-						has_doctrine = doctrine_pluralism_pluralistic 
-						faith_hostility_level = {
-							target = scope:actor.faith
-							value > faith_fully_accepted_level
-						}
+			scope:recipient = {
+				NOR = {
+					faith = scope:actor.faith
+					has_trait = cynical
+				}
+				NOT = {
+					scope:actor.faith = { has_doctrine = doctrine_pluralism_pluralistic }
+				}
+				faith = { 
+					has_doctrine = doctrine_pluralism_pluralistic 
+					faith_hostility_level = {
+						target = scope:actor.faith
+						value > faith_fully_accepted_level
 					}
 				}
 			}
@@ -1426,19 +1579,17 @@ request_to_join_court_interaction = {
 
 		modifier = { #Different faith, both have pluralism.
 			desc = offer_vassalization_interaction_aibehavior_differentfaith_tt
-			trigger = {
-				scope:recipient = {
-					NOR = {
-						faith = scope:actor.faith
-						has_trait = cynical
-					}
-					scope:actor.faith = { has_doctrine = doctrine_pluralism_pluralistic }
-					faith = { 
-						has_doctrine = doctrine_pluralism_pluralistic 
-						faith_hostility_level = {
-							target = scope:actor.faith
-							value > faith_fully_accepted_level
-						}
+			scope:recipient = {
+				NOR = {
+					faith = scope:actor.faith
+					has_trait = cynical
+				}
+				scope:actor.faith = { has_doctrine = doctrine_pluralism_pluralistic }
+				faith = { 
+					has_doctrine = doctrine_pluralism_pluralistic 
+					faith_hostility_level = {
+						target = scope:actor.faith
+						value > faith_fully_accepted_level
 					}
 				}
 			}
@@ -1488,99 +1639,152 @@ request_to_join_court_interaction = {
 		#		}
 		#	}
  		#}
-
- 		#modifier = {
- 		#	add = -500
- 		#	desc = AI_SPONSORED_INSPIRATION
- 		#	exists = inspiration
-		#	inspiration = {
-		#		exists = inspiration_sponsor
-		#	}
- 		#}
-
- 		#modifier = {
- 		#	add = -500
- 		#	desc = AI_WANDERLUST
-		#	is_child_of = scope:actor
- 		#	has_character_modifier = lust_for_adventure
- 		#}
-		
- 		#modifier = {
- 		#	add = -180
- 		#	desc = ELUDING_CASTRATOR
- 		#	is_adult = no
- 		#	any_memory = {
-		#		has_memory_type = family_castration_fled_memory
-		#		memory_participant:castrator ?= {
-		#			this = scope:actor
-		#		}
-		#	}
- 		#}
-
- 		# Amenities impact
- 		## Actor's amenities increases acceptance
- 		#modifier = {
- 		#	add = {
- 		#		value = 10
- 		#		if = {
- 		#			limit = {
- 		#				scope:actor = {
-		#	 				has_royal_court = yes
-		#					has_dlc_feature = royal_court
-		#	 				amenity_level = { type = court_lodging_standards value >=  high_amenity_level }
-		#	 			}
- 		#			}
- 		#	 		add = 10
- 		#		}
- 		#		if = {
- 		#			limit = {
- 		#				scope:actor = {
-		#	 				amenity_level = { type = court_lodging_standards value >=  very_high_amenity_level }
-		#	 			}
- 		#			}
- 		#	 		add = 10
- 		#		}
- 		#		if = {
- 		#			limit = {
- 		#				scope:actor = {
-		#	 				amenity_level = { type = court_lodging_standards value >=  max_amenity_level }
-		#	 			}
- 		#			}
- 		#	 		add = 20
- 		#		}
- 		#	}
- 		#	desc = AI_COURT_LODGING_STANDARDS_QUALITY
-		#	scope:actor = {
-		#	 	has_royal_court = yes
-		#		has_dlc_feature = royal_court
-		#		amenity_level = { type = court_lodging_standards value >=  medium_amenity_level }
-		#	}
- 		#}
 		
  		#House unity
-		#modifier = {
- 		#	add = {
-		#		value = scope:actor.house.house_unity_value
-		#		multiply = 0.5
-		#	}
- 		#	desc = AI_HOUSE_UNITY
-		#	scope:actor = { government_has_flag = government_is_clan }
-		#	exists = house
-		#	exists = scope:actor.house
-		#	house = scope:actor.house
-		#	house = {
-		#		OR = {
-		#			has_house_unity_stage = harmonious
-		#			has_house_unity_stage = friendly
-		#		}
-		#	}
- 		#}
+		modifier = {
+ 			add = {
+				value = scope:actor.house.house_unity_value
+				multiply = 0.25
+			}
+ 			desc = AI_HOUSE_UNITY
+			exists = scope:actor.house
+			scope:recipient = {
+				government_has_flag = government_is_clan
+				house ?= {
+					scope:actor.house
+					OR = {
+						has_house_unity_stage = harmonious
+						has_house_unity_stage = friendly
+					}
+				}
+			}
+ 		}
+		modifier = {
+			add = {
+			   value = scope:actor.house.house_unity_value
+			   multiply = -0.25
+		   }
+			desc = AI_HOUSE_UNITY
+		   exists = scope:actor.house
+		   scope:recipient = {
+			   government_has_flag = government_is_clan
+			   house ?= {
+				   scope:actor.house
+				   OR = {
+					   has_house_unity_stage = competitive
+					   has_house_unity_stage = antagonistic
+				   }
+			   }
+		   }
+		}
 
- 		#modifier = {
-		#	add = 25
-		#	scope:influence_send_option = yes
-		#	desc = INFLUENCE_INTERACTION_ACCEPTANCE_SEND_OPTION
-		#}
+		#Bribes
+		#Gold
+		modifier = {
+			add = {
+				value = 15
+				if = {
+					limit = {
+						scope:recipient = {
+							has_trait = greedy
+						}
+					}
+					multiply = 10
+				}
+				if = {
+					limit = {
+						scope:recipient = {
+							gold <= 0
+						}
+					}
+					multiply = 2
+				}
+				if = {
+					limit = {
+						scope:recipient = {
+							debt_level >= 1
+						}
+					}
+					multiply = 1.2
+				}
+				if = {
+					limit = {
+						scope:recipient = {
+							debt_level >= 3
+						}
+					}
+					multiply = 1.2
+				}
+				if = {
+					limit = {
+						scope:recipient = {
+							debt_level >= 6
+						}
+					}
+					multiply = 1.2
+				}
+				if = {
+					limit = {
+						scope:recipient = {
+							debt_level >= 9
+						}
+					}
+					multiply = 1.2
+				}
+			}
+			scope:gold_bribe_flag = yes
+			desc = COVERING_ACCOMODATION
+		}
+
+		#Influence
+ 		modifier = {
+			add = 20
+			scope:low_influence_send_option = yes
+			desc = INFLUENCE_INTERACTION_ACCEPTANCE_SEND_OPTION
+		}
+		modifier = {
+			add = 30
+			scope:medium_influence_send_option = yes
+			desc = INFLUENCE_INTERACTION_ACCEPTANCE_SEND_OPTION
+		}
+
+		#Prestige
+		modifier = {
+			add = 15
+			scope:prestige_leverage_flag = yes
+			desc = PRESTIGE_INTERACTION_ACCEPTANCE_SEND_OPTION
+		}
+
+		#Piety
+		modifier = {
+			add = {
+				value = 10
+				if = {
+					limit = {
+						scope:recipient = {
+							has_trait = zealous
+						}
+					}
+					multiply = 1.2
+				}
+				if = {
+					limit = {
+						scope:recipient = {
+							government_has_flag = government_is_theocracy
+						}
+					}
+					multiply = 1.5
+				}
+			}
+			scope:piety_leverage_flag = yes
+			scope:recipient = {
+				faith = scope:actor.faith
+				NOT = {
+					has_trait = cynical
+				}
+			}
+			desc = PIETY_INTERACTION_ACCEPTANCE_SEND_OPTION
+		}
 
  		#modifier = {
  		#	add = -1000

@@ -3,5 +3,15 @@
  msg_visiting_court_desc: "You are [LEFT_CHARACTER.GetShortUIName]'s [guest|E] at [LEFT_CHARACTER.GetCapitalLocation.GetBaronyNameExplicitly]"
  msg_joined_court_interaction_title: "New [liege|E]"
 
+ COVER_ACCOMODATION: "Cover Accomodation Expenses"
+
+ LEVERAGE_SOME_INFLUENCE_FOR_BETTER_AI_ACCEPTANCE: "Leverage Some [influence|E]"
+ LEVERAGE_INFLUENCE_FOR_BETTER_AI_ACCEPTANCE: "Leverage [influence|E]"
+
+ LEVERAGE_PRESTIGE_AI_ACCEPTANCE: "Leverage Some [prestige|E]"
+
+ LEVERAGE_PIETY_AI_ACCEPTANCE: "Leverage Some [piety|E]"
+
+
 
  
