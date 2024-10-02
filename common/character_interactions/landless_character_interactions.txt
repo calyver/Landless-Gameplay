@@ -344,7 +344,7 @@ request_to_join_court_interaction = {
  		opinion_modifier = {
 			who = scope:recipient
 			opinion_target = scope:actor
-			multiplier = 0.25
+			multiplier = 0.15
 			desc = AI_OPINION_REASON
 		}
 
@@ -421,6 +421,22 @@ request_to_join_court_interaction = {
 			desc = AI_YOUR_RELATIVE
 		}
 
+
+		modifier = {
+			exists = scope:actor.house
+			exists = scope:recipient.house
+			scope:recipient.house = scope:actor.house
+			add = 15
+			desc = IS_SAME_HOUSE_REASON
+		}
+		modifier = {
+			exists = scope:actor.dynasty
+			exists = scope:recipient.dynasty
+			scope:recipient.dynasty = scope:actor.dynasty
+			add = 5
+			desc = IS_SAME_HOUSE_REASON
+		}
+		
  		modifier = {
  			this.dynasty.dynast = scope:actor
  			add = 30
@@ -438,14 +454,83 @@ request_to_join_court_interaction = {
  			desc = AI_YOUR_SPOUSE
  		}
 		modifier = {
-			is_concubine_of = scope:actor
+			any_concubine = {
+				this = scope:actor
+			}
 			add = 50
 			desc = AI_YOUR_CONCUBINE
 		}
 
 		#Prestige
+		modifier = {
+			scope:actor = {
+				prestige_level = 0
+			}
+			add = -10
+			desc = AI_YOUR_PRESTIGE
+		}
+		modifier = {
+			scope:actor = {
+				prestige_level >= 2
+			}
+			add = {
+				value = 5
+				if = {
+					limit = {
+						scope:actor = {
+							prestige_level >= 3
+						}
+					}
+					add = 5
+				}
+				if = {
+					limit = {
+						scope:actor = {
+							prestige_level >= 4
+						}
+					}
+					add = 5
+				}
+				if = {
+					limit = {
+						scope:actor = {
+							prestige_level >= 5
+						}
+					}
+					add = 5
+				}
+			}
+			desc = AI_YOUR_PRESTIGE
+		}
 
 		#Dynasty's level of splendor
+		modifier = {
+			scope:actor = {
+				dynasty ?= { dynasty_prestige_level >= 3 }
+			}
+			add = {
+				value = 5
+				if = {
+					limit = {
+						scope:actor.dynasty = { dynasty_prestige_level >= 5 }
+					}
+					add = 5
+				}
+				if = {
+					limit = {
+						scope:actor.dynasty = { dynasty_prestige_level >= 8 }
+					}
+					add = 5
+				}
+				if = {
+					limit = {
+						scope:actor.dynasty = { dynasty_prestige_level = 10 }
+					}
+					add = 5
+				}
+			}
+			desc = AI_DYNASTY_PRESTIGE_REASON
+		}
 
 		#Lowborn
 
