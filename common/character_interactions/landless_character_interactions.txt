@@ -424,13 +424,13 @@ request_to_join_court_interaction = {
 
 		modifier = {
 			exists = scope:actor.house
-			exists = scope:recipient.house ?= scope:actor.house
+			scope:recipient.house ?= scope:actor.house
 			add = 10
 			desc = IS_SAME_HOUSE_REASON
 		}
 		modifier = {
 			exists = scope:actor.dynasty
-			exists = scope:recipient.dynasty ?= scope:actor.dynasty
+			scope:recipient.dynasty ?= scope:actor.dynasty
 			add = 5
 			desc = OPINION_SAME_DYNASTY
 		}
@@ -529,6 +529,8 @@ request_to_join_court_interaction = {
 			}
 			desc = AI_DYNASTY_PRESTIGE_REASON
 		}
+
+		#Level of devotion (if not cynical)
 
 		#Lowborn
 		modifier = {
