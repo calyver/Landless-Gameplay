@@ -3,3 +3,8 @@
  AI_PROWESS: "Your [prowess|E]: $VALUE|=+0$"
  AI_VIRTUOUS_TRAITS: "Virtuous traits: $VALUE|=+0$"
  AI_SINFUL_TRAITS: "Sinful traits: $VALUE|=+0$"
+ AI_LOWBORN: "You are [lowborn|E]: $VALUE|=+0$"
+ AI_DEVOTION: "$game_concept_piety_level$: $VALUE|=+0$"
+ AI_INTELLECT_GOOD_1: "[GetTrait('intellect_good_1').GetName( GetNullCharacter )]: $VALUE|=+0$"
+ AI_INTELLECT_GOOD_2: "[GetTrait('intellect_good_2').GetName( GetNullCharacter )]: $VALUE|=+0$"
+ AI_INTELLECT_GOOD_3: "[GetTrait('intellect_good_3').GetName( GetNullCharacter )]: $VALUE|=+0$"

@@ -531,6 +531,71 @@ request_to_join_court_interaction = {
 		}
 
 		#Level of devotion (if not cynical)
+		modifier = {
+			scope:actor = {
+				OR = {
+					piety_level = 0
+					piety_level >= 2
+				}
+			}
+			scope:recipient = {
+				NOT = {
+					has_trait = cynical
+				}
+			}
+			add = {
+				value = 0
+				if = {
+					limit = {
+						scope:actor = {
+							piety_level = 0
+						}
+					}
+					add = -10
+				}
+				if = {
+					limit = {
+						scope:actor = {
+							piety_level >= 2
+						}
+					}
+					add = 5
+				}
+				if = {
+					limit = {
+						scope:actor = {
+							piety_level >= 3
+						}
+					}
+					add = 5
+				}
+				if = {
+					limit = {
+						scope:actor = {
+							piety_level >= 4
+						}
+					}
+					add = 5
+				}
+				if = {
+					limit = {
+						scope:actor = {
+							piety_level >= 5
+						}
+					}
+					add = 5
+				}
+				if = {
+					limit = {
+						scope:recipient = {
+							has_trait = zealous
+						}
+					}
+					multiply = 2
+				}
+			}
+			desc = AI_DEVOTION
+		}
 
 		#Lowborn
 		modifier = {
@@ -870,6 +935,14 @@ request_to_join_court_interaction = {
 					}
 					add = 5
 				}
+				if = {
+					limit = {
+						scope:recipient = {
+							has_trait = zealous
+						}
+					}
+					multiply = 2
+				}
 			}
 			desc = AI_VIRTUOUS_TRAITS
 		}
@@ -902,11 +975,41 @@ request_to_join_court_interaction = {
 					}
 					add = -5
 				}
+				if = {
+					limit = {
+						scope:recipient = {
+							has_trait = zealous
+						}
+					}
+					multiply = 2
+				}
 			}
 			desc = AI_SINFUL_TRAITS
 		}
 
 		#Congenital traits - good and bad
+		#Intellect
+		modifier = { #Quick
+			scope:actor = {
+				has_trait = intellect_good_1
+			}
+			add = 5
+			desc = AI_INTELLECT_GOOD_1
+		}
+		modifier = { #Intelligent
+			scope:actor = {
+				has_trait = intellect_good_2
+			}
+			add = 10
+			desc = AI_INTELLECT_GOOD_2
+		}
+		modifier = { #Genius
+			scope:actor = {
+				has_trait = intellect_good_3
+			}
+			add = 15
+			desc = AI_INTELLECT_GOOD_3
+		}
 
  		#Inspiration - check
 		#modifier = {
