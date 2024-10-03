@@ -2,4 +2,9 @@
  #visit_court_interaction: "Visit Court"
  visit_court_interaction_desc: "You will visit [recipient.GetTitledFirstName]'s court in [recipient.GetCapitalLocation.GetBaronyNameExplicitly]"
  quit_court_reason: "You recently left [recipient.GetTitledFirstName]'s court"
+
+ request_to_join_court_interaction: "Request to Join Court"
+ request_to_join_court_interaction: "Secure your place at [recipient.GetTitledFirstName]'s court, possbly getting a [court_position|E]"
+
+ REQUEST_TO_JOIN_COURT_NOTIFICATION: "I lack a home, and I am impressed by the magnificence of your court. Would you do me the honor to call you my liege?"
  

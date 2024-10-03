@@ -16,13 +16,13 @@ join_court_value = {
 			scope:recipient = { is_playable_character = yes }
 			scope:recipient.primary_title.tier < tier_duchy
 		}
-		multiply = 2
+		multiply = 1.25
 	}
 	else_if = {
 		limit = {
 			scope:recipient.primary_title.tier >= tier_duchy
 		}
-		multiply = 3
+		multiply = 1.5
 	}
 
 	#Royals courts increase expenses

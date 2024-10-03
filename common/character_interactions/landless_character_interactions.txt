@@ -142,6 +142,9 @@ request_to_join_court_interaction = {
 	icon = guest
 	
 	desc = invite_to_court_interaction_desc # Check
+
+	greeting = positive
+	notification_text = REQUEST_TO_JOIN_COURT_NOTIFICATION
 	
 	is_shown = {
 		scope:actor = {
@@ -186,9 +189,17 @@ request_to_join_court_interaction = {
 		}
 		is_valid = {
 			# Actor has enough influence
-			scope:actor = { influence >= miniscule_influence_value }
-			# Both characters are within the same top realm
-			scope:recipient.top_liege = scope:actor.top_liege
+			scope:actor = { 
+				influence >= miniscule_influence_value 
+				# Both characters are within the same top realm
+				OR = {	
+					is_pool_guest_of = scope:recipient
+					AND = {	
+						is_foreign_court_guest_of = scope:recipient
+						top_liege = scope:recipient.top_liege
+					}
+				}
+			}
 		}
 		flag = low_influence_send_option
 		localization = LEVERAGE_SOME_INFLUENCE_FOR_BETTER_AI_ACCEPTANCE
@@ -201,9 +212,17 @@ request_to_join_court_interaction = {
 		}
 		is_valid = {
 			# Actor has enough influence
-			scope:actor = { influence >= minor_influence_value }
-			# Both characters are within the same top realm
-			scope:recipient.top_liege = scope:actor.top_liege
+			scope:actor = { 
+				influence >= minor_influence_value 
+				# Both characters are within the same top realm
+				OR = {	
+					is_pool_guest_of = scope:recipient
+					AND = {	
+						is_foreign_court_guest_of = scope:recipient
+						top_liege = scope:recipient.top_liege
+					}
+				}
+			}
 		}
 		flag = medium_influence_send_option
 		localization = LEVERAGE_INFLUENCE_FOR_BETTER_AI_ACCEPTANCE
@@ -251,6 +270,29 @@ request_to_join_court_interaction = {
 	extra_icon = "gfx/interface/icons/character_interactions/hook_icon.dds"
 
 	send_options_exclusive = no
+
+	can_send = {
+		custom_description = { # Exploit prevention
+			text = "has_sent_interaction_already"
+			subject = scope:recipient
+			scope:actor = {
+				NOT = { exists = var:currently_requesting_to_join_court }
+			}
+		}
+	}
+
+	on_send = {
+		hidden_effect = {
+			# Block sending another interaction while rejection event is active
+			scope:actor = {
+				set_variable = {
+					name = currently_requesting_to_join_court
+					value = scope:recipient
+					days = 30
+				}
+			}
+		}
+	}
 
 	on_accept = {
 		hidden_effect = {	
@@ -1689,7 +1731,7 @@ request_to_join_court_interaction = {
 							has_trait = greedy
 						}
 					}
-					multiply = 10
+					multiply = 2
 				}
 				if = {
 					limit = {
