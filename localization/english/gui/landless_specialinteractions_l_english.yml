@@ -7,6 +7,9 @@
  AI_SINFUL_TRAITS: "Sinful Traits: $VALUE|=+0$"
  AI_LOWBORN: "You are [lowborn|E]: $VALUE|=+0$"
 
+ AI_CULTURE: "Same [culture|E]: $VALUE|=+0$" 
+ AI_FAITH: "Same [faith|E]: $VALUE|=+0$"
+
  AI_GOOD_GENETICS: "Good [congenital_traits|E]: $VALUE|=+0$"
  AI_BAD_GENETICS: "Bad [congenital_traits|E]: $VALUE|=+0$"
 

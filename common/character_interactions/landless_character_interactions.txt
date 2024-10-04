@@ -1515,6 +1515,12 @@ request_to_join_court_interaction = {
 			desc = cultural_acceptance_interaction_reason
 		}
 
+		modifier = { #Same culture
+			scope:actor.culture = scope:recipient.culture
+			add = 5
+			desc = AI_CULTURE
+		}
+
 		#Faith, views on different faiths, religious families, and ai_zeal (non-cynical)
 		modifier = { #Different faith, no pluralism.
 			desc = offer_vassalization_interaction_aibehavior_differentfaith_tt
@@ -1668,6 +1674,17 @@ request_to_join_court_interaction = {
 					multiply = 2
 				}
 			}
+		}
+
+		modifier = { #Same faith
+			scope:recipient = {
+				faith = scope:actor.faith
+				NOT = {
+					has_trait = cynical
+				}
+			}
+			add = 5
+			desc = AI_FAITH
 		}
 
  		#Inspiration - check
