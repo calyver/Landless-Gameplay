@@ -1780,13 +1780,19 @@ request_to_join_court_interaction = {
 
 		#Influence
  		modifier = {
-			add = 20
-			scope:low_influence_send_option = yes
-			desc = INFLUENCE_INTERACTION_ACCEPTANCE_SEND_OPTION
-		}
-		modifier = {
-			add = 30
-			scope:medium_influence_send_option = yes
+			add = {
+				value = 20
+				if = {
+					limit = {
+						scope:medium_influence_send_option = yes
+					}
+					add = 10
+				}
+			}
+			OR = {
+				scope:low_influence_send_option = yes
+				scope:medium_influence_send_option = yes
+			}
 			desc = INFLUENCE_INTERACTION_ACCEPTANCE_SEND_OPTION
 		}
 
